@@ -9,10 +9,7 @@ permissions:
 jobs:
   build:
     name: Build
-    strategy:
-      matrix:
-        os: [ macos-latest, ubuntu-latest ]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
@@ -47,15 +44,12 @@ jobs:
         uses: gradle/actions/setup-gradle@4d9f0ba0025fe599b4ebab900eb7f3a1d93ef4c2 # v5.0.0
 
       - name: Dokka Generate
-        run: ./gradlew dokkaGenerate --info -S --show-version
+        run: ./gradlew javadoc --info -S --show-version
 
   check:
     name: Check
-    strategy:
-      matrix:
-        os: [ macos-latest, ubuntu-latest, windows-latest ]
     needs: build
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0

@@ -22,13 +22,12 @@ publishing {
     publications.withType<MavenPublication>().configureEach {
         pom {
             name = project.name
-            description = "A tiny Kotlin Multiplatform library that provides an Omittable type to be used in cases where the absence of a value is semantically different from a null value."
-            url = "https://github.com/Osmerion/Omittable"
+            url = "https://github.com/Osmerion/omittable-spring-boot"
 
             licenses {
                 license {
                     name = "Apache-2.0"
-                    url = "https://github.com/Osmerion/Omittable/blob/master/LICENSE"
+                    url = "https://github.com/Osmerion/omittable-spring-boot/blob/master/LICENSE"
                     distribution = "repo"
                 }
             }
@@ -43,9 +42,9 @@ publishing {
             }
 
             scm {
-                connection = "scm:git:git://github.com/Osmerion/Omittable.git"
-                developerConnection = "scm:git:git://github.com/Osmerion/Omittable.git"
-                url = "https://github.com/Osmerion/Omittable.git"
+                connection = "scm:git:git://github.com/Osmerion/omittable-spring-boot.git"
+                developerConnection = "scm:git:git://github.com/Osmerion/omittable-spring-boot.git"
+                url = "https://github.com/Osmerion/omittable-spring-boot.git"
             }
         }
     }

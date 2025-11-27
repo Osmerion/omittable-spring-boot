@@ -56,8 +56,8 @@ publishing {
 }
 
 dependencies {
-    api(project(":omittable-spring-webmvc"))
-    api(project(":omittable-swagger-core"))
+    api(libs.omittable.spring.webmvc)
+    api(libs.omittable.swagger.core)
 
     api(platform(libs.spring.boot.dependencies))
     api(libs.spring.boot.autoconfigure)

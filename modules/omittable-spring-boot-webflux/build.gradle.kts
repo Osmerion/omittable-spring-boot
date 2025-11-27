@@ -56,8 +56,8 @@ publishing {
 }
 
 dependencies {
-    api(project(":omittable-spring-webflux"))
-    api(project(":omittable-swagger-core"))
+    api(libs.omittable.spring.webflux)
+    api(libs.omittable.swagger.core)
 
     api(platform(libs.spring.boot.dependencies))
     api(libs.spring.boot.autoconfigure)

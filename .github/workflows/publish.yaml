@@ -11,10 +11,7 @@ concurrency:
 jobs:
   build:
     name: Build
-    strategy:
-      matrix:
-        os: [ macos-latest, ubuntu-latest ]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
@@ -33,11 +30,8 @@ jobs:
 
   check:
     name: Check
-    strategy:
-      matrix:
-        os: [ macos-latest, ubuntu-latest, windows-latest ]
     needs: build
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
@@ -71,16 +65,13 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@4d9f0ba0025fe599b4ebab900eb7f3a1d93ef4c2 # v5.0.0
 
-      - name: Dokka Generate
-        run: ./gradlew dokkaGenerate --info -S --show-version
+      - name: Generate JavaDoc
+        run: ./gradlew javadoc --info -S --show-version
 
-  build-artifact-bundles:
-    name: Build Artifact Bundles
+  build-artifact-bundle:
+    name: Build Artifact Bundle
     needs: check
-    strategy:
-        matrix:
-          os: [ macos-latest, ubuntu-latest ]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
@@ -107,39 +98,9 @@ jobs:
           path: "./build/libs/maven-artifact-bundle.tgz"
           retention-days: 1
 
-  merge-artifact-bundles:
-    name: Merge Bundles
-    needs: build-artifact-bundles
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download Linux Artifact Bundle
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
-        with:
-          name: ubuntu-latest-${{ env.WORKSPACE_ARTIFACT }}
-          path: artifacts
-
-      - name: Download MacOS Artifact Bundle
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
-        with:
-          name: macos-latest-${{ env.WORKSPACE_ARTIFACT }}
-          path: artifacts
-
-      - name: Merge
-        id: merge
-        uses: TheMrMilchmann/merge-tarballs@master
-        with:
-          glob: artifacts/**
-          archive: ./artifact-bundle.tgz
-
-      - name: Upload Artifact Bundle
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
-        with:
-          name: "artifact-bundle"
-          path: ${{ steps.merge.outputs.archive }}
-
   central-upload:
     name: Upload to Central Portal
-    needs: [build-docs, merge-artifact-bundles]
+    needs: [build-artifact-bundle, build-docs]
     runs-on: ubuntu-latest
     steps:
       - name: Download Artifact Bundle
@@ -153,5 +114,5 @@ jobs:
         with:
           username: ${{ secrets.CENTRAL_PORTAL_USERNAME }}
           password: ${{ secrets.CENTRAL_PORTAL_PASSWORD }}
-          bundle: ./artifact-bundle.tgz
+          bundle: ./maven-artifact-bundle.tgz
           publishing-type: "automatic"

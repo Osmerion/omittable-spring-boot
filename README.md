@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-yellowgreen.svg?style=for-the-badge&label=License)](https://github.com/Osmerion/omittable-spring-boot/blob/master/LICENSE)
 [![Maven Central](https://img.shields.io/maven-central/v/com.osmerion.omittable/omittable-spring-boot-webmvc.svg?style=for-the-badge&label=Maven%20Central)](https://maven-badges.herokuapp.com/maven-central/com.osmerion.omittable/omittable-spring-boot-webmvc)
-[![JavaDoc](https://img.shields.io/maven-central/v/com.osmerion.omittable/omittable-spring-core.svg?style=for-the-badge&label=JavaDoc&color=blue)](https://javadoc.io/doc/com.osmerion.omittable/omittable-spring-boot-webmvc)
+[![JavaDoc](https://img.shields.io/maven-central/v/com.osmerion.omittable/omittable-spring-boot-webmvc.svg?style=for-the-badge&label=JavaDoc&color=blue)](https://javadoc.io/doc/com.osmerion.omittable/omittable-spring-boot-webmvc)
 ![Java](https://img.shields.io/badge/Java-17-green.svg?style=for-the-badge&color=b07219&logo=Java)
 
 A collection of support libraries providing Spring Boot integration for the [Omittable](https://github.com/Osmerion/Omittable)

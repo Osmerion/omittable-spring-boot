@@ -12,7 +12,7 @@ omittable-spring-webmvc = { module = "com.osmerion.omittable:omittable-spring-we
 
 # com.osmerion.omittable-spring-[...] - Omittable - Swagger Core Integration
 # https://github.com/Osmerion/omittable-swagger-core
-omittable-swagger-core = { module = "com.osmerion.omittable:omittable-swagger-core", version = "0.5.0" }
+omittable-swagger-core = { module = "com.osmerion.omittable:omittable-swagger-core", version = "0.7.0" }
 
 # org.springframework.boot - Spring Boot
 # https://github.com/spring-projects/spring-boot

@@ -19,8 +19,9 @@ testing {
                 implementation(project())
 
                 implementation(platform(libs.spring.boot.dependencies))
-                implementation(libs.spring.boot.starter.test)
-                implementation(libs.spring.boot.starter.web)
+                implementation(libs.spring.boot.jackson2)
+                implementation(libs.spring.boot.starter.restclient.test)
+                implementation(libs.spring.boot.starter.webmvc.test)
             }
         }
         register<JvmTestSuite>("springDocIntegrationTest") {
@@ -30,8 +31,9 @@ testing {
                 implementation(project())
 
                 implementation(platform(libs.spring.boot.dependencies))
-                implementation(libs.spring.boot.starter.test)
-                implementation(libs.spring.boot.starter.web)
+                implementation(libs.spring.boot.jackson2)
+                implementation(libs.spring.boot.starter.restclient.test)
+                implementation(libs.spring.boot.starter.webmvc.test)
                 implementation(libs.springdoc.openapi.starter.webmvc.ui)
             }
         }

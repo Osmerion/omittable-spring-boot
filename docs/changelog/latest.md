@@ -1,11 +1,11 @@
-### 1.0.0
+### 2.0.0
 
-_Released 2026 Jan 14_
+_Released 2026 Feb 01_
 
 #### Overview
 
-The modules providing support for integrating [Omittable](https://github.com/Osmerion/Omittable) with third-party
-libraries and frameworks have been split off into their own repositories to simplify development of current and future
-integrations.
+This release requires Spring Boot 4.
 
-This repository now only contains the code for the Spring Boot support libraries.
+#### Breaking Changes
+
+This release requires Spring Boot 4.

@@ -1,7 +1,7 @@
 [versions]
 omittable-spring = "1.0.0"
 spring-boot = "3.5.11"
-springdoc = "2.8.15"
+springdoc = "2.8.16"
 
 
 [libraries]

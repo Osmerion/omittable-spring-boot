@@ -16,4 +16,4 @@ junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher
 
 # org.mockito - Mockito
 # https://github.com/mockito/mockito
-mockito-core = { module = "org.mockito:mockito-core", version = "5.22.0" }
+mockito-core = { module = "org.mockito:mockito-core", version = "5.23.0" }

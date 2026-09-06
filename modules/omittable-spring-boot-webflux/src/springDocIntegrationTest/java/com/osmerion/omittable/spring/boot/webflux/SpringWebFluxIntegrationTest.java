@@ -77,7 +77,7 @@ public final class SpringWebFluxIntegrationTest {
                           "in" : "query",
                           "required" : false,
                           "schema" : {
-                            "type" : "string"
+                            "type" : [ "string", "null" ]
                           }
                         } ],
                         "responses" : {

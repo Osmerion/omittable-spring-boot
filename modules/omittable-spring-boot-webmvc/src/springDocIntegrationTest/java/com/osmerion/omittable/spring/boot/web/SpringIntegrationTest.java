@@ -70,7 +70,7 @@ public final class SpringIntegrationTest {
                           "in" : "query",
                           "required" : false,
                           "schema" : {
-                            "type" : "string"
+                            "type" : [ "string", "null" ]
                           }
                         } ],
                         "responses" : {
@@ -120,7 +120,7 @@ public final class SpringIntegrationTest {
                           "in" : "query",
                           "required" : false,
                           "schema" : {
-                            "type" : "string",
+                            "type" : [ "string", "null" ],
                             "format" : "uuid"
                           }
                         } ],

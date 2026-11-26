@@ -1,0 +1,55 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - "main"
+      - "master"
+      - "release/**"
+    tags-ignore:
+      - "**"
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  # Cancels in-progress runs only for pull requests
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build & Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Setup Java
+        uses: actions/setup-java@d1374f8ac74474200d16ef8ecee22c7ae7a51880 # v6.3.0
+        with:
+          distribution: "temurin"
+          java-version-file: .github/workflows/.java-version
+
+      - name: Gradle Check
+        run: ./gradlew check --show-version
+
+      - name: Upload Test Report
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always() # always run even if the previous step fails
+        with:
+          name: junit-test-results
+          path: "**/build/test-results/test/TEST-*.xml"
+          retention-days: 1
+
+  status:
+    name: Status
+    if: always()
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Determine overall status
+        if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')
+        run: exit 1

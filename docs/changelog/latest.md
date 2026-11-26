@@ -1,11 +1,8 @@
-### 2.0.0
+### 2.1.0
 
-_Released 2026 Feb 01_
+_Released 2026 Nov 26_
 
-#### Overview
+#### Improvements
 
-This release requires Spring Boot 4.
-
-#### Breaking Changes
-
-This release requires Spring Boot 4.
+- Updated to [Omittable - Swagger Core Integration 0.8.0](https://github.com/Osmerion/omittable-swagger-core/releases/tag/v0.8.0)
+  for first class Swagger Core 3 (and Jackson 3) support.

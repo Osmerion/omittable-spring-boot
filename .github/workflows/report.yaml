@@ -27,6 +27,6 @@ jobs:
         uses: mikepenz/action-junit-report@a16be3a69023e9bd7e748ede768b3282ea7b30ce # v6.7.1
         with:
           commit: ${{ github.event.workflow_run.head_sha }}
-          report_paths: "**/build/test-results/test/TEST-*.xml"
+          report_paths: "**/build/test-results/*/TEST-*.xml"
           comment: ${{ github.event.workflow_run.event == 'pull_request' }}
           pr_id: ${{ github.event.workflow_run.pull_requests[0].number }}

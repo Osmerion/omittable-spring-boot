@@ -15,9 +15,8 @@
  */
 package com.osmerion.omittable.spring.boot.webflux;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.osmerion.omittable.Omittable;
-import com.osmerion.omittable.jackson.OmittableModule;
+import com.osmerion.omittable.jackson3.OmittableModule;
 import com.osmerion.omittable.spring.core.convert.OmittableConverter;
 import com.osmerion.omittable.spring.webflux.OmittableRequestParamMethodArgumentResolver;
 import com.osmerion.omittable.swagger.v3.core.converter.OmittableModelConverter;
@@ -41,6 +40,7 @@ import org.springframework.format.FormatterRegistry;
 import org.springframework.web.reactive.config.WebFluxConfigurer;
 import org.springframework.web.reactive.result.method.HandlerMethodArgumentResolver;
 import org.springframework.web.reactive.result.method.annotation.RequestMappingHandlerAdapter;
+import tools.jackson.databind.ObjectMapper;
 
 import java.lang.reflect.Field;
 import java.util.List;

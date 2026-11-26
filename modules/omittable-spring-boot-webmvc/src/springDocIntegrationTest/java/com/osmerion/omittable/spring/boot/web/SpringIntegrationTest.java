@@ -16,20 +16,20 @@
 package com.osmerion.omittable.spring.boot.web;
 
 import com.example.Main;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.core.util.Json;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.resttestclient.TestRestTemplate;
-import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureTestRestTemplate;
+import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureRestTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.test.web.servlet.client.RestTestClient;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.json.JsonMapper;
 
 import static org.assertj.core.api.Assertions.*;
 
-@AutoConfigureTestRestTemplate
+@AutoConfigureRestTestClient
 @SpringBootTest(
     classes = Main.class,
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
@@ -40,16 +40,28 @@ public final class SpringIntegrationTest {
     private int port;
 
     @Autowired
-    private TestRestTemplate testRestTemplate;
+    private JsonMapper jsonMapper;
 
     @Autowired
-    private ObjectMapper objectMapper;
+    private RestTestClient restTestClient;
+
+    @BeforeEach
+    public void setUp() {
+        this.restTestClient = RestTestClient.bindToServer()
+            .baseUrl("http://localhost:" + this.port)
+            .build();
+    }
 
     @Test
-    public void testSpringConfiguration() throws JsonProcessingException {
-        String response = this.testRestTemplate.getForObject("http://localhost:" + port + "/v3/api-docs", String.class);
-        JsonNode node = this.objectMapper.readTree(response);
-        String prettyJson = Json.pretty().writeValueAsString(node).replaceAll("\r", "");
+    public void testSpringConfiguration() {
+        String response = this.restTestClient.get()
+            .uri("/v3/api-docs")
+            .exchange()
+            .returnResult(String.class)
+            .getResponseBody();
+
+        JsonNode node = this.jsonMapper.readTree(response);
+        String prettyJson = Json.pretty().writeValueAsString(node).replace("\r", "");
 
         assertThat(prettyJson)
             .isEqualTo(

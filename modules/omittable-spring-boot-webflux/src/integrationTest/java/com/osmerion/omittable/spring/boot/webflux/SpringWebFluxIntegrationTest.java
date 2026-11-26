@@ -16,16 +16,12 @@
 package com.osmerion.omittable.spring.boot.webflux;
 
 import com.example.Main;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.resttestclient.TestRestTemplate;
-import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureTestRestTemplate;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.test.web.servlet.client.RestTestClient;
 
-import static org.assertj.core.api.Assertions.*;
-
-@AutoConfigureTestRestTemplate
 @SpringBootTest(
     classes = Main.class,
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
@@ -35,19 +31,34 @@ public final class SpringWebFluxIntegrationTest {
     @LocalServerPort
     private int port;
 
-    @Autowired
-    private TestRestTemplate testRestTemplate;
+    private RestTestClient restTestClient;
+
+    @BeforeEach
+    public void setUp() {
+        this.restTestClient = RestTestClient.bindToServer()
+            .baseUrl("http://localhost:" + this.port)
+            .build();
+    }
 
     @Test
     public void testHandlerMethodArgumentResolver() {
-        assertThat(this.testRestTemplate.getForObject("http://localhost:" + port + "/person?required=Karl", String.class))
-            .isEqualTo("Karl, Omittable.absent");
+        this.assertResponse("/person?required=Karl", "Karl, Omittable.absent");
 
-        assertThat(this.testRestTemplate.getForObject("http://localhost:" + port + "/person?required=Karl&omittable=d3a33656-3fb4-4430-8103-b7c60f018eb4", String.class))
-            .isEqualTo("Karl, Omittable[d3a33656-3fb4-4430-8103-b7c60f018eb4]");
+        this.assertResponse(
+            "/person?required=Karl&omittable=d3a33656-3fb4-4430-8103-b7c60f018eb4",
+            "Karl, Omittable[d3a33656-3fb4-4430-8103-b7c60f018eb4]"
+        );
 
-        assertThat(this.testRestTemplate.getForObject("http://localhost:" + port + "/person?required=Karl&omittable", String.class))
-            .isEqualTo("Karl, Omittable[null]");
+        this.assertResponse("/person?required=Karl&omittable", "Karl, Omittable[null]");
+    }
+
+    private void assertResponse(String uri, String expectedBody) {
+        this.restTestClient.get()
+            .uri(uri)
+            .exchange()
+            .expectStatus().isOk()
+            .expectBody(String.class)
+            .isEqualTo(expectedBody);
     }
 
 }

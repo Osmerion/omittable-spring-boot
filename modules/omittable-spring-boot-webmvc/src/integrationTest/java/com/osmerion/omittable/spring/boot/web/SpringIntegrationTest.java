@@ -18,39 +18,41 @@ package com.osmerion.omittable.spring.boot.web;
 import com.example.Main;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.resttestclient.TestRestTemplate;
-import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureTestRestTemplate;
+import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureRestTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.test.web.servlet.client.RestTestClient;
 
-import static org.assertj.core.api.Assertions.*;
-
-@AutoConfigureTestRestTemplate
+@AutoConfigureRestTestClient
 @SpringBootTest(
     classes = Main.class,
     webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
 public final class SpringIntegrationTest {
 
-    @LocalServerPort
-    private int port;
-
     @Autowired
-    private TestRestTemplate testRestTemplate;
+    private RestTestClient restTestClient;
 
     @Test
     public void testHandlerMethodArgumentResolver() {
-        assertThat(this.testRestTemplate.getForObject("http://localhost:" + port + "/person", String.class))
-            .isEqualTo("Omittable.absent");
+        this.assertResponse("/person", "Omittable.absent");
 
-        assertThat(this.testRestTemplate.getForObject("http://localhost:" + port + "/person?name=Karl", String.class))
-            .isEqualTo("Omittable[Karl]");
+        this.assertResponse("/person?name=Karl", "Omittable[Karl]");
 
-        assertThat(this.testRestTemplate.getForObject("http://localhost:" + port + "/person/complex-type?myId=d3a33656-3fb4-4430-8103-b7c60f018eb4", String.class))
-            .isEqualTo("Omittable[d3a33656-3fb4-4430-8103-b7c60f018eb4] - UUID");
+        this.assertResponse(
+            "/person/complex-type?myId=d3a33656-3fb4-4430-8103-b7c60f018eb4",
+            "Omittable[d3a33656-3fb4-4430-8103-b7c60f018eb4] - UUID"
+        );
 
-        assertThat(this.testRestTemplate.getForObject("http://localhost:" + port + "/person/complex-type?myId", String.class))
-            .isEqualTo("Omittable[null] - null");
+        this.assertResponse("/person/complex-type?myId", "Omittable[null] - null");
+    }
+
+    private void assertResponse(String uri, String expectedBody) {
+        this.restTestClient.get()
+            .uri(uri)
+            .exchange()
+            .expectStatus().isOk()
+            .expectBody(String.class)
+            .isEqualTo(expectedBody);
     }
 
 }

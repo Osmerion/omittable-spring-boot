@@ -15,9 +15,8 @@
  */
 package com.osmerion.omittable.spring.boot.web;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.osmerion.omittable.Omittable;
-import com.osmerion.omittable.jackson.OmittableModule;
+import com.osmerion.omittable.jackson3.OmittableModule;
 import com.osmerion.omittable.spring.core.convert.OmittableConverter;
 import com.osmerion.omittable.spring.web.OmittableRequestParamMethodArgumentResolver;
 import com.osmerion.omittable.swagger.v3.core.converter.OmittableModelConverter;
@@ -36,6 +35,7 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
+import tools.jackson.databind.ObjectMapper;
 
 import java.util.List;
 import java.util.Optional;

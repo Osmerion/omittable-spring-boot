@@ -1,3 +1,13 @@
 {
-    extends: ["github>Osmerion/.github//.github/renovate.json5"]
+    extends: ["github>Osmerion/.github//.github/renovate.json5"],
+    packageRules: [
+        {
+            // Disable MINOR updates for Omittable - Swagger Core
+            matchPackageNames: [
+                "com.osmerion.omittable:omittable-swagger-core"
+            ],
+            matchUpdateTypes: ["minor"],
+            enabled: false
+        }
+    ]
 }
